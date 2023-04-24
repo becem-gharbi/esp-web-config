@@ -9,6 +9,7 @@
 #include "ArduinoJson.h"
 
 #define DEFAULT_PASSPHRASE 123456789
+
 class WebConfig
 {
 public:
@@ -18,10 +19,15 @@ public:
     String read(String key);
     void write(String key, String value);
     bool reset();
+    void init();
 
 private:
     AsyncWebServer _server;
     Preferences _prefs;
+    String _ssid;
+    String _passphrase;
+    String _username;
+    String _password;
 };
 
 #endif

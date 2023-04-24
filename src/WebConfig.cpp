@@ -4,9 +4,39 @@ WebConfig::WebConfig(int port = 80) : _server(port)
 {
 }
 
-bool WebConfig::begin()
+void WebConfig::init()
 {
     _prefs.begin("web-config", false);
+
+    _username = read("username");
+    _password = read("password");
+    _passphrase = read("passphrase");
+    _ssid = read("ssid");
+
+    if (_username.length() == 0)
+    {
+        _username = "admin";
+    }
+
+    if (_password.length() == 0)
+    {
+        _password = "1234";
+    }
+
+    if (_ssid.length() == 0)
+    {
+        _ssid = WiFi.macAddress();
+    }
+
+    if (_passphrase.length() == 0)
+    {
+        _passphrase = "123456789";
+    }
+}
+
+bool WebConfig::begin()
+{
+    init();
 
     // Initialize SPIFFS
     if (!SPIFFS.begin(true))
@@ -16,19 +46,8 @@ bool WebConfig::begin()
     }
 
     // Setup an AP
-    String ssid = read("ssid");
-    if (ssid.length() == 0)
-    {
-        ssid = WiFi.macAddress();
-    }
 
-    String passphrase = read("passphrase");
-    if (passphrase.length() == 0)
-    {
-        passphrase = DEFAULT_PASSPHRASE;
-    }
-
-    if (!WiFi.softAP(ssid, passphrase))
+    if (!WiFi.softAP(_ssid, _passphrase))
     {
         Serial.println("[WebConfig] Failed to start AP");
         return false;
@@ -52,6 +71,14 @@ bool WebConfig::begin()
             "/config/set",
             [&](AsyncWebServerRequest *request, JsonVariant &jsonVariant)
             {
+                Serial.println(_username.c_str());
+                Serial.println(_password.c_str());
+
+                if (!request->authenticate(_username.c_str(), _password.c_str()))
+                {
+                    return request->requestAuthentication();
+                }
+
                 JsonObject jsonObj = jsonVariant.as<JsonObject>();
 
                 for (JsonPair p : jsonObj)
@@ -69,6 +96,11 @@ bool WebConfig::begin()
             "/config/get",
             [&](AsyncWebServerRequest *request, JsonVariant &jsonVariant)
             {
+                if (!request->authenticate(_username.c_str(), _password.c_str()))
+                {
+                    return request->requestAuthentication();
+                }
+
                 JsonObject inputObj = jsonVariant.as<JsonObject>();
 
                 DynamicJsonDocument doc(1024);
