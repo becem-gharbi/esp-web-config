@@ -26,7 +26,16 @@ bool WebConfig::begin()
 
     // Register server handlers
     _server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-               { request->send(200, "text/plain", "Hello, world"); });
+               { request->send(SPIFFS, "/index.html", "text/html"); });
+
+    _server.on("/app.css", HTTP_GET, [](AsyncWebServerRequest *request)
+               { request->send(SPIFFS, "/app.css", "text/css"); });
+
+    _server.on("/app.js", HTTP_GET, [](AsyncWebServerRequest *request)
+               { request->send(SPIFFS, "/app.js", "text/javascript"); });
+
+    _server.on("/favicon.svg", HTTP_GET, [](AsyncWebServerRequest *request)
+               { request->send(SPIFFS, "/favicon.svg", "image/svg+xml"); });
 
     // Start server
     _server.begin();
