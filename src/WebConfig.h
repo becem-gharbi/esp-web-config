@@ -24,10 +24,7 @@ public:
 private:
     AsyncWebServer _server;
     Preferences _prefs;
-    String _ssid;
-    String _passphrase;
-    String _username;
-    String _password;
+    bool _initialized;
 };
 
 #endif

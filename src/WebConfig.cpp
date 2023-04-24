@@ -2,36 +2,39 @@
 
 WebConfig::WebConfig(int port = 80) : _server(port)
 {
+    _initialized = false;
 }
 
 void WebConfig::init()
 {
+    if (_initialized)
+    {
+        return;
+    }
+
     _prefs.begin("web-config", false);
 
-    _username = read("username");
-    _password = read("password");
-    _passphrase = read("passphrase");
-    _ssid = read("ssid");
-
-    if (_username.length() == 0)
+    if (read("username").length() == 0)
     {
-        _username = "admin";
+        write("username", "admin");
     }
 
-    if (_password.length() == 0)
+    if (read("password").length() == 0)
     {
-        _password = "1234";
+        write("password", "1234");
     }
 
-    if (_ssid.length() == 0)
+    if (read("ssid").length() == 0)
     {
-        _ssid = WiFi.macAddress();
+        write("ssid", WiFi.macAddress());
     }
 
-    if (_passphrase.length() == 0)
+    if (read("passphrase").length() == 0)
     {
-        _passphrase = "123456789";
+        write("passphrase", "123456789");
     }
+
+    _initialized = true;
 }
 
 bool WebConfig::begin()
@@ -47,7 +50,7 @@ bool WebConfig::begin()
 
     // Setup an AP
 
-    if (!WiFi.softAP(_ssid, _passphrase))
+    if (!WiFi.softAP(read("ssid"), read("passphrase")))
     {
         Serial.println("[WebConfig] Failed to start AP");
         return false;
@@ -71,10 +74,7 @@ bool WebConfig::begin()
             "/config/set",
             [&](AsyncWebServerRequest *request, JsonVariant &jsonVariant)
             {
-                Serial.println(_username.c_str());
-                Serial.println(_password.c_str());
-
-                if (!request->authenticate(_username.c_str(), _password.c_str()))
+                if (!request->authenticate(read("username").c_str(), read("password").c_str()))
                 {
                     return request->requestAuthentication();
                 }
@@ -96,7 +96,7 @@ bool WebConfig::begin()
             "/config/get",
             [&](AsyncWebServerRequest *request, JsonVariant &jsonVariant)
             {
-                if (!request->authenticate(_username.c_str(), _password.c_str()))
+                if (!request->authenticate(read("username").c_str(), read("password").c_str()))
                 {
                     return request->requestAuthentication();
                 }
