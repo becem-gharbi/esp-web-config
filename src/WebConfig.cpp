@@ -49,7 +49,7 @@ bool WebConfig::begin()
 
     _server.addHandler(
         new AsyncCallbackJsonWebHandler(
-            "/config",
+            "/config/set",
             [&](AsyncWebServerRequest *request, JsonVariant &jsonVariant)
             {
                 JsonObject jsonObj = jsonVariant.as<JsonObject>();
@@ -62,6 +62,28 @@ bool WebConfig::begin()
                 }
 
                 request->send(200, "text/plain", "OK");
+            }));
+
+    _server.addHandler(
+        new AsyncCallbackJsonWebHandler(
+            "/config/get",
+            [&](AsyncWebServerRequest *request, JsonVariant &jsonVariant)
+            {
+                JsonObject inputObj = jsonVariant.as<JsonObject>();
+
+                DynamicJsonDocument doc(1024);
+                JsonObject outputObj = doc.to<JsonObject>();
+
+                for (JsonPair p : inputObj)
+                {
+                    String key = p.key().c_str();
+                    outputObj[key] = read(key);
+                }
+
+                AsyncResponseStream *response = request->beginResponseStream("application/json");
+
+                serializeJson(outputObj, *response);
+                request->send(response);
             }));
 
     // Start server
