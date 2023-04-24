@@ -5,7 +5,10 @@
 #include "ESPAsyncWebServer.h"
 #include "SPIFFS.h"
 #include <Preferences.h>
+#include "AsyncJson.h"
+#include "ArduinoJson.h"
 
+#define DEFAULT_PASSPHRASE 123456789
 class WebConfig
 {
 public:

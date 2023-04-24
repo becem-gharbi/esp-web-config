@@ -25,7 +25,7 @@ bool WebConfig::begin()
     String passphrase = read("passphrase");
     if (passphrase.length() == 0)
     {
-        passphrase = "123456789";
+        passphrase = DEFAULT_PASSPHRASE;
     }
 
     if (!WiFi.softAP(ssid, passphrase))
@@ -46,6 +46,23 @@ bool WebConfig::begin()
 
     _server.on("/favicon.svg", HTTP_GET, [](AsyncWebServerRequest *request)
                { request->send(SPIFFS, "/favicon.svg", "image/svg+xml"); });
+
+    _server.addHandler(
+        new AsyncCallbackJsonWebHandler(
+            "/config",
+            [&](AsyncWebServerRequest *request, JsonVariant &jsonVariant)
+            {
+                JsonObject jsonObj = jsonVariant.as<JsonObject>();
+
+                for (JsonPair p : jsonObj)
+                {
+                    String key = p.key().c_str();
+                    String value = p.value();
+                    write(key, value);
+                }
+
+                request->send(200, "text/plain", "OK");
+            }));
 
     // Start server
     _server.begin();
