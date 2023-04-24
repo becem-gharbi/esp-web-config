@@ -104,7 +104,12 @@ void WebConfig::end()
 
 String WebConfig::read(String key)
 {
-    return _prefs.getString(key.c_str());
+    const char *_key = key.c_str();
+    if (_prefs.isKey(_key))
+    {
+        return _prefs.getString(_key);
+    }
+    return "";
 }
 
 void WebConfig::write(String key, String value)
