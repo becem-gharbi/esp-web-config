@@ -1,9 +1,16 @@
 #include <Arduino.h>
+#include "WebConfig.h"
 
-void setup() {
+WebConfig webConfig(true);
+
+void setup()
+{
   // put your setup code here, to run once:
+  webConfig.load();
+  webConfig.begin();
 }
 
-void loop() {
+void loop()
+{
   // put your main code here, to run repeatedly:
 }
