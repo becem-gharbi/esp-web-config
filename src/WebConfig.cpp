@@ -48,6 +48,8 @@ bool WebConfig::begin()
 
 void WebConfig::end()
 {
+    _server.end();
+    SPIFFS.end();
 }
 
 void WebConfig::load()
