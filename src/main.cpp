@@ -1,13 +1,17 @@
 #include <Arduino.h>
 #include "WebConfig.h"
 
-WebConfig webConfig(true);
+WebConfig webConfig(80);
 
 void setup()
 {
   // put your setup code here, to run once:
-  webConfig.load();
-  webConfig.begin();
+  Serial.begin(115200);
+
+  if (webConfig.begin() == FAIL)
+  {
+    Serial.println("Web Config Failed");
+  }
 }
 
 void loop()

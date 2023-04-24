@@ -1,18 +1,20 @@
 #ifndef WEB_CONFIG_H
 #define WEB_CONFIG_H
 
+#include "WiFi.h"
+#include "ESPAsyncWebServer.h"
+
 class WebConfig
 {
 public:
-    WebConfig(bool logsEnabled = false);
-    void begin();
+    WebConfig(int port);
+    int begin();
     void end();
     void load();
     void reset();
 
 private:
-    bool _logsEnabled;
-    void privateMethod();
+    AsyncWebServer _server;
 };
 
 #endif
