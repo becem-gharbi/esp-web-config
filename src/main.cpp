@@ -8,10 +8,7 @@ void setup()
   // put your setup code here, to run once:
   Serial.begin(115200);
 
-  if (webConfig.begin() == FAIL)
-  {
-    Serial.println("Web Config Failed");
-  }
+  webConfig.begin();
 }
 
 void loop()

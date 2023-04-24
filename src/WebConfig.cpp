@@ -4,18 +4,24 @@ WebConfig::WebConfig(int port = 80) : _server(port)
 {
 }
 
-int WebConfig::begin()
+bool WebConfig::begin()
 {
     // Load configuration
 
     // Initialize SPIFFS
+    if (!SPIFFS.begin(true))
+    {
+        Serial.println("[WebConfig] Failed to mount SPIFFS");
+        return false;
+    }
 
     // Setup an AP
     const String mac = WiFi.macAddress();
 
     if (!WiFi.softAP(mac))
     {
-        return FAIL;
+        Serial.println("[WebConfig] Failed to start AP");
+        return false;
     }
 
     // Register server handlers
@@ -25,10 +31,10 @@ int WebConfig::begin()
     // Start server
     _server.begin();
 
-    Serial.print("Web Config started on ");
+    Serial.print("[WebConfig] Started on ");
     Serial.println(WiFi.softAPIP());
 
-    return OK;
+    return true;
 }
 
 void WebConfig::end()

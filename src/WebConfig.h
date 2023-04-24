@@ -3,12 +3,13 @@
 
 #include "WiFi.h"
 #include "ESPAsyncWebServer.h"
+#include "SPIFFS.h"
 
 class WebConfig
 {
 public:
     WebConfig(int port);
-    int begin();
+    bool begin();
     void end();
     void load();
     void reset();
