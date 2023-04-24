@@ -6,7 +6,7 @@ WebConfig::WebConfig(int port = 80) : _server(port)
 
 bool WebConfig::begin()
 {
-    // Load configuration
+    _prefs.begin("web-config", false);
 
     // Initialize SPIFFS
     if (!SPIFFS.begin(true))
@@ -16,9 +16,19 @@ bool WebConfig::begin()
     }
 
     // Setup an AP
-    const String mac = WiFi.macAddress();
+    String ssid = read("ssid");
+    if (ssid.length() == 0)
+    {
+        ssid = WiFi.macAddress();
+    }
 
-    if (!WiFi.softAP(mac))
+    String passphrase = read("passphrase");
+    if (passphrase.length() == 0)
+    {
+        passphrase = "123456789";
+    }
+
+    if (!WiFi.softAP(ssid, passphrase))
     {
         Serial.println("[WebConfig] Failed to start AP");
         return false;
@@ -50,12 +60,20 @@ void WebConfig::end()
 {
     _server.end();
     SPIFFS.end();
+    _prefs.end();
 }
 
-void WebConfig::load()
+String WebConfig::read(String key)
 {
+    return _prefs.getString(key.c_str());
 }
 
-void WebConfig::reset()
+void WebConfig::write(String key, String value)
 {
+    _prefs.putString(key.c_str(), value);
+}
+
+bool WebConfig::reset()
+{
+    return _prefs.clear();
 }
