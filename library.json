@@ -1,0 +1,24 @@
+{
+  "name": "WebConfig",
+  "version": "0.1.0",
+  "description": "A library to configure ESP32 via a web application",
+  "keywords": "config, web, esp32",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/becem-gharbi/esp-web-config.git"
+  },
+  "authors": [
+    {
+      "name": "Becem Gharbi",
+      "email": "becem.gharbi@live.com"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/becem-gharbi/esp-web-config",
+  "dependencies": {
+    "ottowinter/ESPAsyncWebServer-esphome": "~3.0.0",
+    "bblanchon/ArduinoJson": "~6.21.2"
+  },
+  "frameworks": "arduino",
+  "platforms": "espressif32"
+}

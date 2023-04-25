@@ -21,7 +21,7 @@
     "$cmp": "FormKit",
     "props": {
       "type": "form",
-      "onSubmit": "$handleSubmit",
+      "onSubmit": "$handleSubmit", 
       "value": "$formValue",
       "submitLabel": "Submit"
     },
