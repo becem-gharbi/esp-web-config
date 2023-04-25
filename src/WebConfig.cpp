@@ -49,7 +49,6 @@ bool WebConfig::begin()
     }
 
     // Setup an AP
-
     if (!WiFi.softAP(read("ssid"), read("passphrase")))
     {
         Serial.println("[WebConfig] Failed to start AP");
@@ -57,9 +56,6 @@ bool WebConfig::begin()
     }
 
     // Register server handlers
-    _server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-               { request->send(SPIFFS, "/index.html", "text/html"); });
-
     _server.on("/app.css", HTTP_GET, [](AsyncWebServerRequest *request)
                { request->send(SPIFFS, "/app.css", "text/css"); });
 
@@ -68,6 +64,14 @@ bool WebConfig::begin()
 
     _server.on("/favicon.svg", HTTP_GET, [](AsyncWebServerRequest *request)
                { request->send(SPIFFS, "/favicon.svg", "image/svg+xml"); });
+
+    _server.on("/", HTTP_GET, [&](AsyncWebServerRequest *request)
+               { 
+                if (!request->authenticate(read("username").c_str(), read("password").c_str()))
+                {
+                    return request->requestAuthentication();
+                }
+                request->send(SPIFFS, "/index.html", "text/html"); });
 
     _server.addHandler(
         new AsyncCallbackJsonWebHandler(
@@ -131,7 +135,6 @@ void WebConfig::end()
 {
     _server.end();
     SPIFFS.end();
-    _prefs.end();
 }
 
 String WebConfig::read(String key)
