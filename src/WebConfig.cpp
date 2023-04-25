@@ -93,6 +93,8 @@ bool WebConfig::begin()
                 }
 
                 request->send(200, "text/plain", "OK");
+
+                end();
             }));
 
     _server.addHandler(
@@ -135,6 +137,7 @@ void WebConfig::end()
 {
     _server.end();
     SPIFFS.end();
+    ESP.restart();
 }
 
 String WebConfig::read(String key)
