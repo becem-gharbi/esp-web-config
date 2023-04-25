@@ -17,7 +17,7 @@ It's built with [Vue.js 3](https://vuejs.org/). Uses [Tailwindcss](https://tailw
 
 ## Form generation
 
-The form definition is decoupled from the web application. It's defined by `schema.json` located under `data` folder. The schema is a JSON object interpreted by [Formkit](https://formkit.com/essentials/schema). It supports styling, validation, conditional rendering and more. depending on your needs.
+The form definition is decoupled from the web application. It's defined by `schema.json` located under `data` folder. The schema is a JSON object interpreted by [Formkit](https://formkit.com/essentials/schema). It supports styling, validation, conditional rendering and more.
 
 ## Default configuration
 
@@ -34,18 +34,3 @@ The form definition is decoupled from the web application. It's defined by `sche
 - Upload Filesystem image.
 - Add `WebConfig` library to your project.
 
-```arduino
-#include <Arduino.h>
-#include "WebConfig.h"
-
-WebConfig webConfig(80);
-
-void setup()
-{
-  // put your setup code here, to run once:
-  Serial.begin(115200);
-
-  webConfig.init();
-
-  webConfig.begin();
-}

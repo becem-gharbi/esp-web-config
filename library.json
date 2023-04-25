@@ -1,7 +1,7 @@
 {
   "name": "WebConfig",
-  "version": "0.0.1",
-  "description": "A library to configure ESP32 via a web application",
+  "version": "0.0.2",
+  "description": "A library to configure ESP32 via a web interface",
   "keywords": "config, web, esp32",
   "repository": {
     "type": "git",
