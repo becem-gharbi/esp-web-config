@@ -65,6 +65,9 @@ bool WebConfig::begin()
     _server.on("/favicon.svg", HTTP_GET, [](AsyncWebServerRequest *request)
                { request->send(SPIFFS, "/favicon.svg", "image/svg+xml"); });
 
+    _server.on("/schema.json", HTTP_GET, [](AsyncWebServerRequest *request)
+               { request->send(SPIFFS, "/schema.json", "application/json"); });
+
     _server.on("/", HTTP_GET, [&](AsyncWebServerRequest *request)
                { 
                 if (!request->authenticate(read("username").c_str(), read("password").c_str()))

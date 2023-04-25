@@ -1,0 +1,56 @@
+[
+  {
+    "$el": "h1",
+    "children": "ESP Web Config",
+    "attrs": {
+      "style": {
+        "font-size": "20px",
+        "font-weight": "600"
+      }
+    }
+  },
+  {
+    "$el": "hr",
+    "attrs": {
+      "style": {
+        "margin": "16px 0px"
+      }
+    }
+  },
+  {
+    "$formkit": "form",
+    "submitLabel": "Submit",
+    "action": "/config/set",
+    "method": "post",
+    "children": [
+      {
+        "$formkit": "text",
+        "name": "ssid",
+        "label": "SSID",
+        "help": "SSID of the access point",
+        "validation": "required"
+      },
+      {
+        "$formkit": "password",
+        "name": "passphrase",
+        "label": "Passphrase",
+        "help": "Password of the access point",
+        "validation": "required|length:8,16"
+      },
+      {
+        "$formkit": "text",
+        "name": "username",
+        "label": "Username",
+        "help": "Username of the admin",
+        "validation": "required"
+      },
+      {
+        "$formkit": "password",
+        "name": "password",
+        "label": "Password",
+        "help": "Password of the admin",
+        "validation": "required|length:8,16"
+      }
+    ]
+  }
+]
