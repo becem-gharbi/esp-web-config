@@ -18,11 +18,13 @@
     }
   },
   {
-    "$formkit": "form",
-    "submitLabel": "Submit",
-    "action": "/config/set",
-    "method": "post",
-    "value": "$formValue",
+    "$cmp": "FormKit",
+    "props": {
+      "type": "form",
+      "onSubmit": "$handleSubmit",
+      "value": "$formValue",
+      "submitLabel": "Submit"
+    },
     "children": [
       {
         "$formkit": "text",

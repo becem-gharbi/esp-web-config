@@ -7,10 +7,26 @@ import { ref } from "vue"
 import { FormKitSchema } from '@formkit/vue'
 
 type Schema = InstanceType<typeof FormKitSchema>["$props"]["schema"];
+type Data = { formValue: Record<string, any>, handleSubmit: (target: any) => Promise<void> };
 
 const schema = ref<Schema>([])
 
-const data = ref<{ formValue: Record<string, any> }>({ formValue: {} })
+const data = ref<Data>({
+    formValue: {},
+
+    handleSubmit: async (target) => {
+        await fetch("/config/set", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(target)
+        }).then(() => {
+            alert("Configuration done!")
+        })
+    }
+})
 
 /**
  * Extracts values having key 'name' from a nested object
