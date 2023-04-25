@@ -1,0 +1,17 @@
+{
+  "name": "esp-web-config",
+  "version": "0.1.2",
+  "description": "A Platform IO library to configure ESP32 devices over a web interface.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "npx changelogen --release && git push --follow-tags"
+  },
+  "author": "",
+  "license": "ISC"
+}
