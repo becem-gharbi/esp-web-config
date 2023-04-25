@@ -38,14 +38,14 @@ The form definition is decoupled from the web application. It's defined by `sche
 
 The library exposes `WebConfig` class which has the following methods:
 
-| Method | Description                                      |
-| ------ | ------------------------------------------------ |
-| read   | Get a configuration field                        |
-| write  | Set a configuration field                        |
-| begin  | Start the web server                             |
-| end    | Stop the web server and restart the software     |
-| reset  | Clear the configuration                          |
-| init   | Initialize storage and set default configuration |
+| Method | Description                                  |
+| ------ | -------------------------------------------- |
+| init   | Initialize storage                           |
+| read   | Get a configuration field                    |
+| write  | Set a configuration field                    |
+| begin  | Start the web server                         |
+| end    | Stop the web server and restart the software |
+| reset  | Clear the configuration                      |
 
 ## License
 
