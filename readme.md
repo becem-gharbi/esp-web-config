@@ -17,4 +17,35 @@ It's built with [Vue.js 3](https://vuejs.org/). Uses [Tailwindcss](https://tailw
 
 ## Form generation
 
-The form definition is decoupled from the web application. It's defined by `schema.json` located under `data` folder. The schema is a JSON object interpreted by [Formkit](https://formkit.com/essentials/schema). It supports styling, validation, conditional rendering and more. depending on your needs. The default `schema.json` file contains `ssid`, `passphrase`, `username` and `password` fields.
+The form definition is decoupled from the web application. It's defined by `schema.json` located under `data` folder. The schema is a JSON object interpreted by [Formkit](https://formkit.com/essentials/schema). It supports styling, validation, conditional rendering and more. depending on your needs.
+
+## Default configuration
+
+- ssid: device's MAC address
+- passphrase: 123456789
+- username: admin
+- password: 1234
+
+## Usage
+
+- Make sure `data` folder is located on your project root.
+- Edit `schema.json` file depending on your use case.
+- Build Filesystem image.
+- Upload Filesystem image.
+- Add `WebConfig` library to your project.
+
+```arduino
+#include <Arduino.h>
+#include "WebConfig.h"
+
+WebConfig webConfig(80);
+
+void setup()
+{
+  // put your setup code here, to run once:
+  Serial.begin(115200);
+
+  webConfig.init();
+
+  webConfig.begin();
+}
