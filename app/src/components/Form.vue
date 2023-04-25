@@ -1,8 +1,5 @@
 <template>
     <FormKitSchema :schema="schema" :data="data" />
-    <!-- <p>{{ data }}</p>
-    <hr>
-    <p>{{ schema }}</p> -->
 </template>
   
 <script setup lang="ts">
@@ -13,7 +10,7 @@ type Schema = InstanceType<typeof FormKitSchema>["$props"]["schema"];
 
 const schema = ref<Schema>([])
 
-const data = ref<Record<string, string>>({})
+const data = ref<{ formValue: Record<string, any> }>({ formValue: {} })
 
 /**
  * Extracts values having key 'name' from a nested object
@@ -43,7 +40,7 @@ try {
 
     const names = getNames(schema.value)
 
-    names.forEach(name => data.value[name] = "")
+    names.forEach(name => data.value.formValue[name] = "")
 
     await fetch("/config/get", {
         method: "POST",
@@ -52,10 +49,10 @@ try {
             "Accept": "application/json",
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data.value)
+        body: JSON.stringify(data.value.formValue)
     }).then(async (res) => {
         const content = await res.json()
-        Object.assign(data.value, content)
+        Object.assign(data.value.formValue, content)
     })
 } catch (error) {
     alert(error)
