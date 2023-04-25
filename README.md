@@ -20,6 +20,7 @@ It's built with [Vue.js 3](https://vuejs.org/). Uses [Tailwindcss](https://tailw
 The form definition is decoupled from the web application. It's defined by `schema.json` located under `data` folder. The schema is a JSON object interpreted by [Formkit](https://formkit.com/essentials/schema). It supports styling, validation, conditional rendering and more.
 
 ## Default configuration
+
 - host: 192.168.4.1:80
 - ssid: device's MAC address
 - passphrase: 123456789
@@ -34,10 +35,11 @@ The form definition is decoupled from the web application. It's defined by `sche
 - Upload Filesystem image.
 
 ## Usage
+
 The library exposes `WebConfig` class which has the following methods:
 
 | Method | Description                                      |
-|--------|--------------------------------------------------|
+| ------ | ------------------------------------------------ |
 | read   | Get a configuration field                        |
 | write  | Set a configuration field                        |
 | begin  | Start the web server                             |
@@ -45,3 +47,6 @@ The library exposes `WebConfig` class which has the following methods:
 | reset  | Clear the configuration                          |
 | init   | Initialize storage and set default configuration |
 
+## License
+
+[MIT License](./LICENSE)
