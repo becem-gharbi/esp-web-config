@@ -129,7 +129,8 @@ bool WebConfig::begin()
 
                 request->send(200, "text/plain", "OK");
 
-                end();
+                request->onDisconnect([&]()
+                                      { end(); });
             }));
 
     _server.addHandler(
