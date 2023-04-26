@@ -41,40 +41,72 @@ bool WebConfig::begin()
 {
     init();
 
-    // Initialize SPIFFS
+    // Initialize Filesystem
+
+#ifdef ESP8266
+    if (!LittleFS.begin())
+    {
+        Serial.println("[WebConfig] Failed to start LittleFS");
+        return false;
+    }
+#else
     if (!SPIFFS.begin(true))
     {
-        Serial.println("[WebConfig] Failed to mount SPIFFS");
+        Serial.println("[WebConfig] Failed to start SPIFFS");
         return false;
     }
-
-    // Setup an AP
-    if (!WiFi.softAP(read("ssid"), read("passphrase")))
-    {
-        Serial.println("[WebConfig] Failed to start AP");
-        return false;
-    }
+#endif
 
     // Register server handlers
+
     _server.on("/app.css", HTTP_GET, [](AsyncWebServerRequest *request)
-               { request->send(SPIFFS, "/app.css", "text/css"); });
+               {
+#ifdef ESP8266
+                   request->send(LittleFS, "/app.css", "text/css");
+#else
+            request->send(SPIFFS, "/app.css", "text/css");
+#endif
+               });
 
     _server.on("/app.js", HTTP_GET, [](AsyncWebServerRequest *request)
-               { request->send(SPIFFS, "/app.js", "text/javascript"); });
+               {
+#ifdef ESP8266
+                   request->send(LittleFS, "/app.js", "text/javascript");
+#else
+            request->send(SPIFFS, "/app.js", "text/javascript");
+#endif
+               });
 
     _server.on("/favicon.svg", HTTP_GET, [](AsyncWebServerRequest *request)
-               { request->send(SPIFFS, "/favicon.svg", "image/svg+xml"); });
+               {
+#ifdef ESP8266
+                   request->send(LittleFS, "/favicon.svg", "image/svg+xml");
+#else
+            request->send(SPIFFS, "/favicon.svg", "image/svg+xml");
+#endif
+               });
 
     _server.on("/schema.json", HTTP_GET, [](AsyncWebServerRequest *request)
-               { request->send(SPIFFS, "/schema.json", "application/json"); });
+               {
+#ifdef ESP8266
+                   request->send(LittleFS, "/schema.json", "application/json");
+#else
+            request->send(SPIFFS, "/schema.json", "application/json");
+#endif
+               });
 
     _server.on("/", HTTP_GET, [&](AsyncWebServerRequest *request)
-               { 
-                if (!request->authenticate(read("username").c_str(), read("password").c_str()))
-                {
-                    return request->requestAuthentication();
-                }
-                request->send(SPIFFS, "/index.html", "text/html"); });
+               {
+                   if (!request->authenticate(read("username").c_str(), read("password").c_str()))
+                   {
+                       return request->requestAuthentication();
+                   }
+#ifdef ESP8266
+                   request->send(LittleFS, "/index.html", "text/html");
+#else
+            request->send(SPIFFS, "/index.html", "text/html");
+#endif
+               });
 
     _server.addHandler(
         new AsyncCallbackJsonWebHandler(
@@ -127,6 +159,13 @@ bool WebConfig::begin()
                 request->send(response);
             }));
 
+    // Setup an AP
+    if (!WiFi.softAP(read("ssid"), read("passphrase")))
+    {
+        Serial.println("[WebConfig] Failed to start AP");
+        return false;
+    }
+
     // Start server
     _server.begin();
 
@@ -138,8 +177,14 @@ bool WebConfig::begin()
 
 void WebConfig::end()
 {
-    _server.end();
+
+#ifdef ESP8266
+    LittleFS.end();
+#else
     SPIFFS.end();
+#endif
+
+    _server.end();
     ESP.restart();
 }
 

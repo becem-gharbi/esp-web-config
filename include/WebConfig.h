@@ -1,12 +1,18 @@
 #ifndef WEB_CONFIG_H
 #define WEB_CONFIG_H
 
-#include "WiFi.h"
-#include "ESPAsyncWebServer.h"
-#include "SPIFFS.h"
+#ifdef ESP8266
+#include <ESP8266WiFi.h>
+#include <LittleFS.h>
+#else
+#include <WiFi.h>
+#include <SPIFFS.h>
+#endif
+
+#include <ESPAsyncWebServer.h>
 #include <Preferences.h>
-#include "AsyncJson.h"
-#include "ArduinoJson.h"
+#include <AsyncJson.h>
+#include <ArduinoJson.h>
 
 #define DEFAULT_PASSPHRASE 123456789
 
