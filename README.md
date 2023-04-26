@@ -1,14 +1,14 @@
 # ESP Web Config
 
-A Platform IO library to configure ESP32 devices over a web interface.
+A Platform IO library to configure ESP32 & ESP8266 devices over a web interface.
 
 ## ❓ How it works
 
 - Sets WiFi to Access point.
-- Runs a web server of a static web app from SPIFFS.
+- Runs a web server of a static web app from SPIFFS (ESP32) or LittleFS (ESP8266) with default 170Kb size.
 - Uses web basic authentication (username/password).
 - Accepts configuration data via a personalized form.
-- Saves configuration to Non-volatile Storage.
+- Saves configuration to Non-volatile Storage via `Preferences` library.
 
 ## Web application
 
@@ -19,20 +19,29 @@ It's built with [Vue.js 3](https://vuejs.org/). Uses [Tailwindcss](https://tailw
 
 The form definition is decoupled from the web application. It's defined by `schema.json` located under `data` folder. The schema is a JSON object interpreted by [Formkit](https://formkit.com/essentials/schema). It supports styling, validation, conditional rendering and more.
 
-## Default configuration
-
-- host: 192.168.4.1:80
-- ssid: device's MAC address
-- passphrase: 123456789
-- username: admin
-- password: 1234
-
 ## Setup
 
-- Download data folder from [link](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/becem-gharbi/esp-web-config/tree/main/data) and place it in your project root.
+- Download `data` folder from this [link](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/becem-gharbi/esp-web-config/tree/main/data) and place it in your project root.
 - Edit `schema.json` file depending on your use case.
+- Edit `platformio.ini` config file
+
+```ini
+# ESP8266 only
+board_build.filesystem = littlefs
+```
+
 - Build Filesystem image.
 - Upload Filesystem image.
+
+## Default configuration
+
+| Parameter  | Value                |
+| ---------- | -------------------- |
+| host       | 192.168.4.1:80       |
+| ssid       | device's MAC address |
+| passphrase | 123456789            |
+| username   | admin                |
+| password   | 1234                 |
 
 ## Usage
 
