@@ -19,29 +19,35 @@ It's built with [Vue.js 3](https://vuejs.org/). Uses [Tailwindcss](https://tailw
 
 The form definition is decoupled from the web application. It's defined by `schema.json` located under `data` folder. The schema is a JSON object interpreted by [Formkit](https://formkit.com/essentials/schema). It supports styling, validation, conditional rendering and more.
 
+## ESP8266 support
+
+To use this library with `espressif8266` platform, you should
+
+- Install [vshymanskyy/Preferences](https://registry.platformio.org/libraries/vshymanskyy/Preferences) library.
+- Specify `LittleFS` as the file system.
+
+```ini
+# ./platformio.ini
+
+board_build.filesystem = littlefs
+```
+
 ## Setup
 
 - Download `data` folder from this [link](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/becem-gharbi/esp-web-config/tree/main/data) and place it in your project root.
 - Edit `schema.json` file depending on your use case.
-- Edit `platformio.ini` config file
-
-```ini
-# ESP8266 only
-board_build.filesystem = littlefs
-```
-
 - Build Filesystem image.
 - Upload Filesystem image.
 
 ## Default configuration
 
-| Parameter  | Value                |
-| ---------- | -------------------- |
-| host       | 192.168.4.1:80       |
-| ssid       | device's MAC address |
-| passphrase | 123456789            |
-| username   | admin                |
-| password   | 1234                 |
+| Parameter  | Value          |
+| ---------- | -------------- |
+| host       | 192.168.4.1:80 |
+| ssid       | MAC address    |
+| passphrase | 123456789      |
+| username   | admin          |
+| password   | 1234           |
 
 ## Usage
 
@@ -49,7 +55,7 @@ The library exposes `WebConfig` class which has the following methods:
 
 | Method | Description                                  |
 | ------ | -------------------------------------------- |
-| init   | Initialize storage                           |
+| init   | Initialize Non-volatile storage              |
 | read   | Get a configuration field                    |
 | write  | Set a configuration field                    |
 | begin  | Start the web server                         |
