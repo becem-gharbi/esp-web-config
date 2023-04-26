@@ -1,6 +1,38 @@
 # Changelog
 
 
+## v0.2.1
+
+[compare changes](https://github.com/becem-gharbi/esp-web-config/compare/v0.1.2...v0.2.1)
+
+
+### 🚀 Enhancements
+
+  - Add support for ESP8266 ([23cc708](https://github.com/becem-gharbi/esp-web-config/commit/23cc708))
+
+### 🩹 Fixes
+
+  - End server on config set terminated ([121cbe1](https://github.com/becem-gharbi/esp-web-config/commit/121cbe1))
+
+### 💅 Refactors
+
+  - Add _registerHandlers method ([1b07e75](https://github.com/becem-gharbi/esp-web-config/commit/1b07e75))
+
+### 📖 Documentation
+
+  - Update readme ([5fcfe9e](https://github.com/becem-gharbi/esp-web-config/commit/5fcfe9e))
+  - Add ESP8266 support section to readme ([848a53e](https://github.com/becem-gharbi/esp-web-config/commit/848a53e))
+
+### 🏡 Chore
+
+  - Set github release ([1afca99](https://github.com/becem-gharbi/esp-web-config/commit/1afca99))
+  - Set esp8266 and esp32 env in platformio.ini ([7c5f223](https://github.com/becem-gharbi/esp-web-config/commit/7c5f223))
+  - Add ESP8266 support to library.json ([9c5c362](https://github.com/becem-gharbi/esp-web-config/commit/9c5c362))
+
+### ❤️  Contributors
+
+- Becem-gharbi
+
 ## v0.1.2
 
 

@@ -1,7 +1,7 @@
 {
   "name": "esp-web-config",
-  "version": "0.1.2",
-  "description": "A Platform IO library to configure ESP32 devices over a web interface.",
+  "version": "0.2.1",
+  "description": "A Platform IO library to configure ESP32 & ESP8266 devices over a web interface.",
   "main": "index.js",
   "directories": {
     "example": "examples",
