@@ -58,7 +58,26 @@ bool WebConfig::begin()
 #endif
 
     // Register server handlers
+    _registerHandlers();
 
+    // Setup an AP
+    if (!WiFi.softAP(read("ssid"), read("passphrase")))
+    {
+        Serial.println("[WebConfig] Failed to start AP");
+        return false;
+    }
+
+    // Start server
+    _server.begin();
+
+    Serial.print("[WebConfig] Started on ");
+    Serial.println(WiFi.softAPIP());
+
+    return true;
+}
+
+void WebConfig::_registerHandlers()
+{
     _server.on("/app.css", HTTP_GET, [](AsyncWebServerRequest *request)
                {
 #ifdef ESP8266
@@ -159,21 +178,6 @@ bool WebConfig::begin()
                 serializeJson(outputObj, *response);
                 request->send(response);
             }));
-
-    // Setup an AP
-    if (!WiFi.softAP(read("ssid"), read("passphrase")))
-    {
-        Serial.println("[WebConfig] Failed to start AP");
-        return false;
-    }
-
-    // Start server
-    _server.begin();
-
-    Serial.print("[WebConfig] Started on ");
-    Serial.println(WiFi.softAPIP());
-
-    return true;
 }
 
 void WebConfig::end()

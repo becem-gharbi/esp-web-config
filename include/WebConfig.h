@@ -31,6 +31,7 @@ private:
     AsyncWebServer _server;
     Preferences _prefs;
     bool _initialized;
+    void _registerHandlers();
 };
 
 #endif
