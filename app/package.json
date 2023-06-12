@@ -11,7 +11,7 @@
   "dependencies": {
     "@formkit/tailwindcss": "^0.16.4",
     "@formkit/themes": "^0.16.4",
-    "@formkit/vue": "^0.16.4",
+    "@formkit/vue": "^0.17.0",
     "vue": "^3.2.47"
   },
   "devDependencies": {
